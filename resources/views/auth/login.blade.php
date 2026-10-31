@@ -1,0 +1,24 @@
+@extends('layouts.app')
+
+@section('content')
+<div class="max-w-lg mx-auto bg-white p-6 rounded-lg shadow">
+    <h2 class="text-2xl font-bold mb-2">Login Petugas</h2>
+    <p class="text-gray-600 mb-5">Masuk untuk melihat daftar laporan dan profil petugas.</p>
+    <form method="POST" action="{{ route('login.store') }}" class="space-y-4">
+        @csrf
+        <div>
+            <label class="block font-medium mb-1">Email</label>
+            <input type="email" name="email" value="{{ old('email') }}" required autofocus class="w-full border rounded p-2">
+        </div>
+        <div>
+            <label class="block font-medium mb-1">Password</label>
+            <input type="password" name="password" required class="w-full border rounded p-2">
+        </div>
+        <label class="flex items-center gap-2 text-sm">
+            <input type="checkbox" name="remember" value="1"> Ingat saya
+        </label>
+        <button class="w-full bg-blue-700 text-white rounded p-2 font-semibold">Login</button>
+    </form>
+    <p class="mt-4 text-sm">Belum memiliki akun? <a class="text-blue-700 underline" href="{{ route('register') }}">Register</a></p>
+</div>
+@endsection

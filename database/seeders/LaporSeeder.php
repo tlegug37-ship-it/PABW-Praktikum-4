@@ -6,26 +6,19 @@ use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Faker\Factory as Faker;
 
-class LaporanSeeder extends Seeder
+class LaporSeeder extends Seeder
 {
     public function run(): void
     {
         $faker = Faker::create('id_ID');
-
         $kecamatanBandung = [
-            'Dayeuhkolot',
-            'Baleendah',
-            'Bojongsoang',
-            'Rancaekek',
-            'Majalaya',
-            'Ciparay',
-            'Kertasari',
-            'Cileunyi'
+            'Dayeuhkolot', 'Baleendah', 'Bojongsoang', 'Rancaekek',
+            'Majalaya', 'Ciparay', 'Kertasari', 'Cileunyi',
         ];
 
         for ($i = 0; $i < 20; $i++) {
-            DB::table('laporan')->insert([
-                'nama_pelapor' => $faker->name,
+            DB::table('lapor')->insert([
+                'nama_pelapor' => $faker->name(),
                 'lokasi' => $faker->randomElement($kecamatanBandung),
                 'tinggi_genangan' => $faker->numberBetween(10, 150),
                 'tanggal_kejadian' => $faker->dateTimeBetween('-1 month', 'now')->format('Y-m-d'),

@@ -2,19 +2,16 @@
 
 @section('content')
 <div class="max-w-6xl mx-auto">
-    <x-alert />
-
     <div class="flex justify-between items-center mb-6">
-        <h2 class="text-2xl font-bold text-gray-800">Daftar Laporan Banjir Terkini</h2>
-        <a href="{{ route('laporan.form') }}" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
-            + Tambah Laporan
-        </a>
+        <div>
+            <h2 class="text-2xl font-bold">Daftar Laporan Banjir</h2>
+            <p class="text-gray-600">Halaman khusus petugas BPBD yang telah login.</p>
+        </div>
+        <a href="{{ route('laporan.form') }}" class="bg-blue-700 text-white px-4 py-2 rounded">Form Publik</a>
     </div>
 
     @if($laporan->isEmpty())
-        <div class="bg-white p-6 rounded shadow text-center text-gray-500">
-            Belum ada data laporan banjir yang tersimpan di database.
-        </div>
+        <div class="bg-white p-6 rounded shadow text-center text-gray-500">Belum ada data laporan banjir.</div>
     @else
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             @foreach($laporan as $item)

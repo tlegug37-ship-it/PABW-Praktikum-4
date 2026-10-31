@@ -2,14 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\LaporModel;
+use Illuminate\Http\Request;
 
 class LaporanController extends Controller
 {
     public function index()
     {
-        $laporan = LaporModel::all();
+        $laporan = LaporModel::latest()->get();
         return view('laporan.index', compact('laporan'));
     }
 
@@ -20,20 +20,27 @@ class LaporanController extends Controller
 
     public function store(Request $request)
     {
-        $request->validate([
-            'namaPelapor' => 'required|string|max:255',
-            'lokasi' => 'required|string|max:255',
-            'tinggi_genangan' => 'required|numeric',
-            'tanggal_kejadian' => 'required|date',
+        $validated = $request->validate([
+            'nama_pelapor' => ['required', 'string', 'max:255'],
+            'lokasi' => ['required', 'string', 'max:255'],
+            'tinggi_genangan' => ['required', 'integer', 'min:1', 'max:1000'],
+            'tanggal_kejadian' => ['required', 'date'],
         ]);
 
-        LaporModel::create([
-            'nama_pelapor' => $request->namaPelapor,
-            'lokasi' => $request->lokasi,
-            'tinggi_genangan' => $request->tinggi_genangan,
-            'tanggal_kejadian' => $request->tanggal_kejadian,
-        ]);
+        LaporModel::create($validated);
 
-        return redirect()->route('laporan.index')->with('success', 'Laporan kejadian banjir berhasil disimpan ke database!');
+        return redirect()->route('laporan.konfirmasi')
+            ->with('nama_pelapor', $validated['nama_pelapor']);
+    }
+
+    public function confirmation()
+    {
+        if (!session()->has('nama_pelapor')) {
+            return redirect()->route('laporan.form');
+        }
+
+        return view('laporan.konfirmasi', [
+            'nama' => session('nama_pelapor'),
+        ]);
     }
 }
